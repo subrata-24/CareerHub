@@ -1,8 +1,9 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 
-const Login = ({ isClose }) => {
-  return (
+const Login = ({ isClose , onSignUp, userType}) => {
+    return (
+     
     <div className="fixed inset-0 flex items-center justify-center z-50">
 
       <motion.div
@@ -41,7 +42,19 @@ const Login = ({ isClose }) => {
               className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
             />
           </div>
-
+          
+            {userType !== "admin" &&
+                <p className="mt-4 text-center text-gray-700">
+                Do not have an account? Please{" "} 
+                <span
+                    className="text-blue-600 hover:underline cursor-pointer"
+                    onClick={() => onSignUp(userType)}
+                >
+                    Sign Up
+                </span>
+                </p>
+            }
+                    
           <button 
             type="submit" 
             className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
