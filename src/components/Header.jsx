@@ -1,7 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import Login from '../pages/Login';
 
 const Header = () => {
+
+  const [isOpen, setIsopen] = useState(false);
+
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
       <nav className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
@@ -13,26 +17,24 @@ const Header = () => {
         </Link>
 
         <div className="flex space-x-4">
-          <Link
-            to="/jobs"
-            className="px-4 py-2 rounded-lg text-white bg-blue-600 hover:bg-blue-700 transition-colors font-medium shadow-md"
+          <button className="px-4 py-2 rounded-lg text-white bg-blue-600 hover:bg-blue-700 transition-colors font-medium shadow-md"
+            onClick={()=>{setIsopen(true)}}
           >
             Job Seeker
-          </Link>
-          <Link
-            to="/employer"
-            className="px-4 py-2 rounded-lg text-white bg-green-600 hover:bg-green-700 transition-colors font-medium shadow-md"
+          </button>
+          <button className="px-4 py-2 rounded-lg text-white bg-blue-600 hover:bg-blue-700 transition-colors font-medium shadow-md"
+            onClick={()=>{setIsopen(true)}}
           >
             Employers
-          </Link>
-          <Link
-            to="/admin"
-            className="px-4 py-2 rounded-lg text-white bg-red-600 hover:bg-red-700 transition-colors font-medium shadow-md"
+          </button>
+          <button className="px-4 py-2 rounded-lg text-white bg-blue-600 hover:bg-blue-700 transition-colors font-medium shadow-md"
+            onClick={()=>{setIsopen(true)}}
           >
             Admin
-          </Link>
+          </button>
         </div>
       </nav>
+      {isOpen && <Login isClose={()=> setIsopen(false)} />}
     </header>
   )
 }
