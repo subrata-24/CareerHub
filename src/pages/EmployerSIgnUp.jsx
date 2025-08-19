@@ -1,7 +1,27 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { useFormik } from "formik";
+import { ValidateEmployee } from "../components/ValidateEmployee";
 
 const EmployerSIgnUp = ({ isClose }) => {
+  const formik = useFormik({
+    initialValues: {
+      firstname: "",
+      lastname: "",
+      email: "",
+      company: "",
+      position: "",
+      education: "",
+      skills: "",
+      experience: "",
+      password: "",
+      confirmPassword: "",
+    },
+    validationSchema: ValidateEmployee,
+    onSubmit: (values) => {
+      console.log(values);
+    },
+  });
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/40 backdrop-blur-sm">
       <motion.div
@@ -11,7 +31,6 @@ const EmployerSIgnUp = ({ isClose }) => {
         transition={{ duration: 0.25, ease: "easeInOut" }}
         className="bg-white rounded-xl shadow-lg w-[24rem] p-6 relative max-h-[90vh] overflow-y-auto"
       >
-        {/* Close Button */}
         <button
           className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 transition text-xl"
           onClick={isClose}
@@ -20,11 +39,10 @@ const EmployerSIgnUp = ({ isClose }) => {
         </button>
 
         <h1 className="text-2xl font-bold mb-4 text-center text-blue-700">
-          Employer Sign Up
+          Job Seeker Sign Up
         </h1>
 
-        <form className="space-y-3">
-          {/* Name fields */}
+        <form onSubmit={formik.handleSubmit} className="space-y-3">
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label
@@ -36,11 +54,19 @@ const EmployerSIgnUp = ({ isClose }) => {
               <input
                 type="text"
                 id="firstname"
+                value={formik.values.firstname}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 placeholder="First name"
                 className="w-full px-3 py-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400 outline-none"
-                required
               />
+              {formik.touched.firstname && formik.errors.firstname && (
+                <p className="text-red-500 text-xs mt-1">
+                  {formik.errors.firstname}
+                </p>
+              )}
             </div>
+
             <div>
               <label htmlFor="lastname" className="block text-sm text-gray-600">
                 Last Name
@@ -48,13 +74,15 @@ const EmployerSIgnUp = ({ isClose }) => {
               <input
                 type="text"
                 id="lastname"
+                value={formik.values.lastname}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 placeholder="Last name"
                 className="w-full px-3 py-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400 outline-none"
               />
             </div>
           </div>
 
-          {/* Email */}
           <div>
             <label htmlFor="email" className="block text-sm text-gray-600">
               Email
@@ -62,39 +90,48 @@ const EmployerSIgnUp = ({ isClose }) => {
             <input
               type="email"
               id="email"
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               placeholder="you@example.com"
               className="w-full px-3 py-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400 outline-none"
               required
             />
+            {formik.touched.email && formik.errors.email && (
+              <p className="text-red-500 text-xs mt-1">{formik.errors.email}</p>
+            )}
           </div>
 
-          {/* Company */}
           <div>
             <label htmlFor="company" className="block text-sm text-gray-600">
-              Current Company
+              Company Name
             </label>
             <input
               type="text"
               id="company"
-              placeholder="Company name"
+              value={formik.values.company}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              placeholder="Enter your current company name"
               className="w-full px-3 py-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400 outline-none"
             />
           </div>
 
-          {/* Position */}
           <div>
             <label htmlFor="position" className="block text-sm text-gray-600">
-              Position
+              Job Position
             </label>
             <input
               type="text"
               id="position"
-              placeholder="Your position"
+              value={formik.values.position}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              placeholder="Enter your current position in your company"
               className="w-full px-3 py-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400 outline-none"
             />
           </div>
 
-          {/* Education */}
           <div>
             <label htmlFor="education" className="block text-sm text-gray-600">
               Education
@@ -102,12 +139,14 @@ const EmployerSIgnUp = ({ isClose }) => {
             <input
               type="text"
               id="education"
+              value={formik.values.education}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               placeholder="Your education"
               className="w-full px-3 py-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400 outline-none"
             />
           </div>
 
-          {/* Skills */}
           <div>
             <label htmlFor="skills" className="block text-sm text-gray-600">
               Skills
@@ -115,12 +154,13 @@ const EmployerSIgnUp = ({ isClose }) => {
             <input
               type="text"
               id="skills"
+              value={formik.values.skills}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               placeholder="Your skills"
               className="w-full px-3 py-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400 outline-none"
             />
           </div>
-
-          {/* Experience */}
           <div>
             <label htmlFor="experience" className="block text-sm text-gray-600">
               Experience
@@ -128,12 +168,14 @@ const EmployerSIgnUp = ({ isClose }) => {
             <input
               type="text"
               id="experience"
+              value={formik.values.experience}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               placeholder="Your experience"
               className="w-full px-3 py-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400 outline-none"
             />
           </div>
 
-          {/* Password */}
           <div>
             <label htmlFor="password" className="block text-sm text-gray-600">
               Password
@@ -141,13 +183,45 @@ const EmployerSIgnUp = ({ isClose }) => {
             <input
               type="password"
               id="password"
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               placeholder="********"
               className="w-full px-3 py-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400 outline-none"
               required
             />
+            {formik.touched.password && formik.errors.password && (
+              <p className="text-red-500 text-xs mt-1">
+                {formik.errors.password}
+              </p>
+            )}
           </div>
 
-          {/* Submit */}
+          <div>
+            <label
+              htmlFor="confirmPassword"
+              className="block text-sm text-gray-600"
+            >
+              Confirm Password
+            </label>
+            <input
+              type="password"
+              id="confirmPassword"
+              value={formik.values.confirmPassword}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              placeholder="********"
+              className="w-full px-3 py-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400 outline-none"
+              required
+            />
+            {formik.touched.confirmPassword &&
+              formik.errors.confirmPassword && (
+                <p className="text-red-500 text-xs mt-1">
+                  {formik.errors.confirmPassword}
+                </p>
+              )}
+          </div>
+
           <button
             type="submit"
             className="w-full bg-blue-600 text-white py-2 rounded-md font-medium hover:bg-blue-700 transition"
