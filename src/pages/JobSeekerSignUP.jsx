@@ -174,7 +174,7 @@ const JobSeekerSignUP = ({ isClose }) => {
               Confirm Password
             </label>
             <input
-              type="confirmPassword"
+              type="password"
               id="confirmPassword"
               value={formik.values.confirmPassword}
               onChange={formik.handleChange}
