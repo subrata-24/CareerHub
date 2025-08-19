@@ -1,7 +1,26 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { useFormik } from "formik";
+import { ValidateSeeker } from "../components/ValidateSeeker";
 
 const JobSeekerSignUP = ({ isClose }) => {
+  const formik = useFormik({
+    initialValues: {
+      firstname: "",
+      lastname: "",
+      email: "",
+      education: "",
+      skills: "",
+      experience: "",
+      password: "",
+      confirmPassword: "",
+    },
+    validationSchema: ValidateSeeker,
+    onSubmit: (values) => {
+      console.log(values);
+    },
+  });
+
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/40 backdrop-blur-sm">
       <motion.div
@@ -22,7 +41,7 @@ const JobSeekerSignUP = ({ isClose }) => {
           Job Seeker Sign Up
         </h1>
 
-        <form className="space-y-3">
+        <form onSubmit={formik.handleSubmit} className="space-y-3">
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label
@@ -34,11 +53,19 @@ const JobSeekerSignUP = ({ isClose }) => {
               <input
                 type="text"
                 id="firstname"
+                value={formik.values.firstname}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 placeholder="First name"
                 className="w-full px-3 py-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400 outline-none"
-                required
               />
+              {formik.touched.firstname && formik.errors.firstname && (
+                <p className="text-red-500 text-xs mt-1">
+                  {formik.errors.firstname}
+                </p>
+              )}
             </div>
+
             <div>
               <label htmlFor="lastname" className="block text-sm text-gray-600">
                 Last Name
@@ -46,6 +73,9 @@ const JobSeekerSignUP = ({ isClose }) => {
               <input
                 type="text"
                 id="lastname"
+                value={formik.values.lastname}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 placeholder="Last name"
                 className="w-full px-3 py-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400 outline-none"
               />
@@ -59,10 +89,16 @@ const JobSeekerSignUP = ({ isClose }) => {
             <input
               type="email"
               id="email"
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               placeholder="you@example.com"
               className="w-full px-3 py-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400 outline-none"
               required
             />
+            {formik.touched.email && formik.errors.email && (
+              <p className="text-red-500 text-xs mt-1">{formik.errors.email}</p>
+            )}
           </div>
 
           <div>
@@ -72,6 +108,9 @@ const JobSeekerSignUP = ({ isClose }) => {
             <input
               type="text"
               id="education"
+              value={formik.values.education}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               placeholder="Your education"
               className="w-full px-3 py-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400 outline-none"
             />
@@ -84,6 +123,9 @@ const JobSeekerSignUP = ({ isClose }) => {
             <input
               type="text"
               id="skills"
+              value={formik.values.skills}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               placeholder="Your skills"
               className="w-full px-3 py-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400 outline-none"
             />
@@ -95,6 +137,9 @@ const JobSeekerSignUP = ({ isClose }) => {
             <input
               type="text"
               id="experience"
+              value={formik.values.experience}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               placeholder="Your experience"
               className="w-full px-3 py-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400 outline-none"
             />
@@ -107,10 +152,43 @@ const JobSeekerSignUP = ({ isClose }) => {
             <input
               type="password"
               id="password"
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               placeholder="********"
               className="w-full px-3 py-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400 outline-none"
               required
             />
+            {formik.touched.password && formik.errors.password && (
+              <p className="text-red-500 text-xs mt-1">
+                {formik.errors.password}
+              </p>
+            )}
+          </div>
+
+          <div>
+            <label
+              htmlFor="confirmPassword"
+              className="block text-sm text-gray-600"
+            >
+              Confirm Password
+            </label>
+            <input
+              type="confirmPassword"
+              id="confirmPassword"
+              value={formik.values.confirmPassword}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              placeholder="********"
+              className="w-full px-3 py-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400 outline-none"
+              required
+            />
+            {formik.touched.confirmPassword &&
+              formik.errors.confirmPassword && (
+                <p className="text-red-500 text-xs mt-1">
+                  {formik.errors.confirmPassword}
+                </p>
+              )}
           </div>
 
           <button
