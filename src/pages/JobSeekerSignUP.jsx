@@ -2,8 +2,14 @@ import React from "react";
 import { motion } from "framer-motion";
 import { useFormik } from "formik";
 import { ValidateSeeker } from "../components/ValidateSeeker";
+import supabase from "../utils/supabase";
+import { useState } from "react";
+import EmailVerified from "../components/EmailVerified";
 
 const JobSeekerSignUP = ({ isClose }) => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
   const formik = useFormik({
     initialValues: {
       firstname: "",
@@ -16,8 +22,38 @@ const JobSeekerSignUP = ({ isClose }) => {
       confirmPassword: "",
     },
     validationSchema: ValidateSeeker,
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: async (values) => {
+      setLoading(true);
+      setError("");
+
+      try {
+        const { data: authData, error: authError } = await supabase.auth.signUp(
+          {
+            email: values.email,
+            password: values.password,
+            options: {
+              emailRedirectTo: "http://localhost:5173/email-verified",
+              data: {
+                firstname: values.firstname,
+                lastname: values.lastname,
+                education: values.education,
+                skills: values.skills,
+                experience: values.experience,
+              },
+            },
+          }
+        );
+
+        if (authError) throw authError;
+
+        alert("✅ Sign up successful! Please check your email to confirm.");
+        isClose();
+      } catch (err) {
+        console.error(err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
     },
   });
 
@@ -193,9 +229,14 @@ const JobSeekerSignUP = ({ isClose }) => {
 
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded-md font-medium hover:bg-blue-700 transition"
+            className={`w-full py-2 rounded-md font-medium text-white ${
+              loading
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-700"
+            }`}
+            disabled={loading}
           >
-            Create Account
+            {loading ? "Creating Account..." : "Create Account"}
           </button>
         </form>
 
