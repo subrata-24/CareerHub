@@ -5,6 +5,7 @@ import { SignedIn, SignedOut, UserButton, SignIn } from "@clerk/clerk-react";
 
 const Header = () => {
   const [showSignIn, setshowSignIn] = useState(false);
+  const [redirectPath, setRedirectPath] = useState("");
 
   //  This function closes the SignIn modal only when the user clicks
   //  on the overlay background (not inside the modal box).
@@ -29,9 +30,21 @@ const Header = () => {
           <SignedOut>
             <button
               className="border border-black px-2"
-              onClick={() => setshowSignIn(true)}
+              onClick={() => {
+                setRedirectPath("/jobseeker/home");
+                setshowSignIn(true);
+              }}
             >
               jobseeker
+            </button>
+            <button
+              className="border border-black px-2 ml-2"
+              onClick={() => {
+                setRedirectPath("/employee/home");
+                setshowSignIn(true);
+              }}
+            >
+              employee
             </button>
           </SignedOut>
 
@@ -53,8 +66,8 @@ const Header = () => {
         >
           <div>
             <SignIn
-              signUpForceRedirectUrl="/jobseeker/home"
-              fallbackRedirectUrl="/jobseeker/home"
+              signUpForceRedirectUrl={redirectPath}
+              fallbackRedirectUrl={redirectPath}
             />
           </div>
         </div>

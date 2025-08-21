@@ -3,6 +3,7 @@ import AppLayout from "./layout/app.layout";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/Home";
 import JobseekerHome from "./jobseeker/SeekerHome";
+import EmployeeHome from "./employee/EmployeeHome";
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
       {
         path: "/jobseeker/home",
         element: <JobseekerHome />,
+      },
+      {
+        path: "/employee/home",
+        element: <EmployeeHome />,
       },
     ],
   },
