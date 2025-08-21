@@ -1,30 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import Login from "../pages/Login";
-import JobSeekerSignUP from "../pages/JobSeekerSignUP";
-import EmployerSIgnUp from "../pages/EmployerSIgnUp";
-import {
-  SignedIn,
-  SignedOut,
-  SignInButton,
-  UserButton,
-} from "@clerk/clerk-react";
+import { useState } from "react";
+import { SignedIn, SignedOut, UserButton, SignIn } from "@clerk/clerk-react";
 
 const Header = () => {
-  const handleSignUp = (type) => {
-    setIsopen(false);
-    if (type == "jobseeker") {
-      setForJobSeeker(true);
-    }
-    if (type == "employee") {
-      setForEmployee(true);
+  const [showSignIn, setshowSignIn] = useState(false);
+
+  //  This function closes the SignIn modal only when the user clicks
+  //  on the overlay background (not inside the modal box).
+  const handleShowOverlay = (e) => {
+    if (e.target === e.currentTarget) {
+      setshowSignIn(false);
     }
   };
-
-  const [isOpen, setIsopen] = useState(false);
-  const [forJobSeeker, setForJobSeeker] = useState(false);
-  const [forEmployee, setForEmployee] = useState(false);
-  const [userType, setUserType] = useState("");
 
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
@@ -35,55 +23,42 @@ const Header = () => {
           </h1>
         </Link>
 
-        <div className="flex space-x-4">
-          <button
-            className="px-4 py-2 rounded-lg text-white bg-blue-600 hover:bg-blue-700 transition-colors font-medium shadow-md"
-            onClick={() => {
-              setIsopen(true);
-              setUserType("jobseeker");
-            }}
-          >
-            Job Seeker
-          </button>
-          <button
-            className="px-4 py-2 rounded-lg text-white bg-blue-600 hover:bg-blue-700 transition-colors font-medium shadow-md"
-            onClick={() => {
-              setIsopen(true);
-              setUserType("employee");
-            }}
-          >
-            Employers
-          </button>
-          <button
-            className="px-4 py-2 rounded-lg text-white bg-blue-600 hover:bg-blue-700 transition-colors font-medium shadow-md"
-            onClick={() => {
-              setIsopen(true);
-              setUserType("admin");
-            }}
-          >
-            Admin
-          </button>
+        <div className="flex space-x-4 items-center">
+          {/* When the user is SignedOut → show this "jobseeker" button.
+              Clicking it sets showSignIn(true), which opens the SignIn modal. */}
+          <SignedOut>
+            <button
+              className="border border-black px-2"
+              onClick={() => setshowSignIn(true)}
+            >
+              jobseeker
+            </button>
+          </SignedOut>
+
+          {/* When the user is SignedIn → show Clerk's UserButton (profile menu). */}
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
         </div>
-        <SignedOut>
-          <SignInButton />
-        </SignedOut>
-        <SignedIn>
-          <UserButton />
-        </SignedIn>
       </nav>
 
-      {isOpen && (
-        <Login
-          isClose={() => setIsopen(false)}
-          onSignUp={handleSignUp}
-          userType={userType}
-        />
+      {/* If showSignIn === true → render the SignIn modal.
+          - signUpForceRedirectUrl="/jobseeker/home": after a successful SignUp, redirect here.
+          - fallbackRedirectUrl="/jobseeker/home": after a successful SignIn, redirect here.
+          - handleShowOverlay: closes the modal when clicking outside of it. */}
+      {showSignIn && (
+        <div
+          className="fixed inset-0 flex items-center justify-center"
+          onClick={handleShowOverlay}
+        >
+          <div>
+            <SignIn
+              signUpForceRedirectUrl="/jobseeker/home"
+              fallbackRedirectUrl="/jobseeker/home"
+            />
+          </div>
+        </div>
       )}
-
-      {forJobSeeker && (
-        <JobSeekerSignUP isClose={() => setForJobSeeker(false)} />
-      )}
-      {forEmployee && <EmployerSIgnUp isClose={() => setForEmployee(false)} />}
     </header>
   );
 };
