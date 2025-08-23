@@ -5,14 +5,28 @@ import Home from "./pages/Home";
 import JobseekerHome from "./jobseeker/SeekerHome";
 import RoleSelection from "./components/RoleSelection";
 import { SignIn, SignUp } from "@clerk/clerk-react";
+import EmployeeHome from "./employee/EmployeeHome";
 
 const router = createBrowserRouter([
   {
     element: <AppLayout />,
     children: [
-      { path: "/", element: <Home /> },
-      { path: "/jobseeker/home", element: <JobseekerHome /> },
-      { path: "/role", element: <RoleSelection /> },
+      {
+        path: "/",
+        element: <Home />,
+      },
+      {
+        path: "/jobseeker/home",
+        element: <JobseekerHome />,
+      },
+      {
+        path: "/role",
+        element: <RoleSelection />,
+      },
+      {
+        path: "/employee/home",
+        element: <EmployeeHome />,
+      },
 
       {
         path: "/sign-in/*",

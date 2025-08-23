@@ -22,7 +22,7 @@ const Header = () => {
         <div className="flex space-x-4 items-center">
           <SignedOut>
             <button
-              className="border border-black px-2 py-1"
+              className="border border-black px-2 py-1 cursor-pointer"
               onClick={() => setShowSignIn(true)}
             >
               jobseeker
