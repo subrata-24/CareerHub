@@ -21,17 +21,26 @@ const RoleSelection = () => {
     },
     validationSchema: ValidateUsers,
     onSubmit: async (values) => {
-      if (!user) return; // safety check
+      if (!user) return;
 
-      await user.update({
-        unsafeMetadata: { role: values.role },
-      });
+      await user
+        .update({
+          unsafeMetadata: { role: values.role },
+        })
+        .then(() => {
+          navigate(
+            values.role === "jobseeker" ? "/jobseeker/home" : "/employee/home"
+          );
+        })
+        .catch((err) => {
+          console.error("Error updating role", err);
+        });
 
-      if (values.role === "jobseeker") {
-        navigate("/jobseeker/home");
-      } else if (values.role === "employee") {
-        navigate("/employee/home");
-      }
+      // if (values.role === "jobseeker") {
+      //   navigate("/jobseeker/home");
+      // } else if (values.role === "employee") {
+      //   navigate("/employee/home");
+      // }
     },
   });
   return (
