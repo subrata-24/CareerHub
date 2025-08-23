@@ -1,18 +1,13 @@
-import React from "react";
+// Header.jsx
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { useState } from "react";
 import { SignedIn, SignedOut, UserButton, SignIn } from "@clerk/clerk-react";
 
 const Header = () => {
-  const [showSignIn, setshowSignIn] = useState(false);
-  const [redirectPath, setRedirectPath] = useState("");
+  const [showSignIn, setShowSignIn] = useState(false);
 
-  //  This function closes the SignIn modal only when the user clicks
-  //  on the overlay background (not inside the modal box).
-  const handleShowOverlay = (e) => {
-    if (e.target === e.currentTarget) {
-      setshowSignIn(false);
-    }
+  const handleOverlayClick = (e) => {
+    if (e.target === e.currentTarget) setShowSignIn(false);
   };
 
   return (
@@ -25,49 +20,31 @@ const Header = () => {
         </Link>
 
         <div className="flex space-x-4 items-center">
-          {/* When the user is SignedOut → show this "jobseeker" button.
-              Clicking it sets showSignIn(true), which opens the SignIn modal. */}
           <SignedOut>
             <button
-              className="border border-black px-2"
-              onClick={() => {
-                setRedirectPath("/jobseeker/home");
-                setshowSignIn(true);
-              }}
+              className="border border-black px-2 py-1"
+              onClick={() => setShowSignIn(true)}
             >
               jobseeker
             </button>
-            <button
-              className="border border-black px-2 ml-2"
-              onClick={() => {
-                setRedirectPath("/employee/home");
-                setshowSignIn(true);
-              }}
-            >
-              employee
-            </button>
           </SignedOut>
 
-          {/* When the user is SignedIn → show Clerk's UserButton (profile menu). */}
           <SignedIn>
             <UserButton />
           </SignedIn>
         </div>
       </nav>
 
-      {/* If showSignIn === true → render the SignIn modal.
-          - signUpForceRedirectUrl="/jobseeker/home": after a successful SignUp, redirect here.
-          - fallbackRedirectUrl="/jobseeker/home": after a successful SignIn, redirect here.
-          - handleShowOverlay: closes the modal when clicking outside of it. */}
+      {/* Modal overlay */}
       {showSignIn && (
         <div
-          className="fixed inset-0 flex items-center justify-center"
-          onClick={handleShowOverlay}
+          className="fixed inset-0 flex items-center justify-center z-50"
+          onClick={handleOverlayClick}
         >
           <div>
             <SignIn
-              signUpForceRedirectUrl={redirectPath}
-              fallbackRedirectUrl={redirectPath}
+              forceRedirectUrl="/jobseeker/home"
+              signUpForceRedirectUrl="/role"
             />
           </div>
         </div>
