@@ -1,4 +1,3 @@
-// Header.jsx
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { SignedIn, SignedOut, UserButton, SignIn } from "@clerk/clerk-react";
@@ -35,15 +34,15 @@ const Header = () => {
         </div>
       </nav>
 
-      {/* Modal overlay */}
       {showSignIn && (
         <div
           className="fixed inset-0 flex items-center justify-center z-50"
           onClick={handleOverlayClick}
         >
-          <div>
+          <div className="bg-white p-4 rounded-xl shadow-lg">
             <SignIn
-              forceRedirectUrl="/jobseeker/home"
+              //Send every successful sign-in to the dynamic router
+              forceRedirectUrl="/after-login"
               signUpForceRedirectUrl="/role"
             />
           </div>

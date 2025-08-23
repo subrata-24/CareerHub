@@ -1,3 +1,4 @@
+// Main.jsx
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
@@ -17,9 +18,7 @@ createRoot(document.getElementById("root")).render(
       appearance={{ baseTheme: dark }}
       signInUrl="/sign-in"
       signUpUrl="/sign-up"
-      signInForceRedirectUrl="/jobseeker/home"
       signUpForceRedirectUrl="/role"
-      signInFallbackRedirectUrl="/jobseeker/home"
       signUpFallbackRedirectUrl="/role"
     >
       <App />

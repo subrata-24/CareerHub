@@ -6,27 +6,16 @@ import JobseekerHome from "./jobseeker/SeekerHome";
 import RoleSelection from "./components/RoleSelection";
 import { SignIn, SignUp } from "@clerk/clerk-react";
 import EmployeeHome from "./employee/EmployeeHome";
+import AfterSignInRouter from "./auth/AfterSignInRouter";
 
 const router = createBrowserRouter([
   {
     element: <AppLayout />,
     children: [
-      {
-        path: "/",
-        element: <Home />,
-      },
-      {
-        path: "/jobseeker/home",
-        element: <JobseekerHome />,
-      },
-      {
-        path: "/role",
-        element: <RoleSelection />,
-      },
-      {
-        path: "/employee/home",
-        element: <EmployeeHome />,
-      },
+      { path: "/", element: <Home /> },
+      { path: "/jobseeker/home", element: <JobseekerHome /> },
+      { path: "/employee/home", element: <EmployeeHome /> },
+      { path: "/role", element: <RoleSelection /> },
 
       {
         path: "/sign-in/*",
@@ -35,7 +24,7 @@ const router = createBrowserRouter([
             <SignIn
               routing="path"
               path="/sign-in"
-              forceRedirectUrl="/jobseeker/home"
+              forceRedirectUrl="/after-login"
               signUpForceRedirectUrl="/role"
             />
           </div>
@@ -50,11 +39,13 @@ const router = createBrowserRouter([
               routing="path"
               path="/sign-up"
               forceRedirectUrl="/role"
-              signInForceRedirectUrl="/jobseeker/home"
+              signInForceRedirectUrl="/after-login"
             />
           </div>
         ),
       },
+
+      { path: "/after-login", element: <AfterSignInRouter /> },
     ],
   },
 ]);

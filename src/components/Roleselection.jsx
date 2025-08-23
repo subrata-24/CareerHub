@@ -35,12 +35,6 @@ const RoleSelection = () => {
         .catch((err) => {
           console.error("Error updating role", err);
         });
-
-      // if (values.role === "jobseeker") {
-      //   navigate("/jobseeker/home");
-      // } else if (values.role === "employee") {
-      //   navigate("/employee/home");
-      // }
     },
   });
   return (
