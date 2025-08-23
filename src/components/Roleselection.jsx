@@ -2,10 +2,12 @@ import React from "react";
 import { motion } from "framer-motion";
 import { useFormik } from "formik";
 import { ValidateUsers } from "./ValidateUsers";
-import { Link, Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "@clerk/clerk-react";
 
 const RoleSelection = () => {
+  const { user, isLoaded } = useUser();
+
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
@@ -18,10 +20,18 @@ const RoleSelection = () => {
       role: "",
     },
     validationSchema: ValidateUsers,
-    onSubmit: (values) => {
-      if (role === "jobseeker") navigate("/jobseeker/home");
-      else navigate("/employee/home");
-      console.log(values);
+    onSubmit: async (values) => {
+      if (!user) return; // safety check
+
+      await user.update({
+        unsafeMetadata: { role: values.role },
+      });
+
+      if (values.role === "jobseeker") {
+        navigate("/jobseeker/home");
+      } else if (values.role === "employee") {
+        navigate("/employee/home");
+      }
     },
   });
   return (
